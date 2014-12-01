@@ -24,6 +24,11 @@ namespace DisplayInfoWMIProvider
         {
             base.Install(stateSaver);
             System.Runtime.InteropServices.RegistrationServices RS = new System.Runtime.InteropServices.RegistrationServices();
+            try
+            {
+                new System.EnterpriseServices.Internal.Publish().GacInstall(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            }
+            catch { }
         }
 
         public override void Uninstall(IDictionary savedState)
@@ -39,6 +44,12 @@ namespace DisplayInfoWMIProvider
             try
             {
                 base.Uninstall(savedState);
+            }
+            catch { }
+
+            try
+            {
+                new System.EnterpriseServices.Internal.Publish().GacRemove(System.Reflection.Assembly.GetExecutingAssembly().Location);
             }
             catch { }
         }
